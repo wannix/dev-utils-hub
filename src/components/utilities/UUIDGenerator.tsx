@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ToolCard } from "@/components/common/ToolCard";
 import { CopyButton } from "@/components/common/CopyButton";
 import { Button } from "@/components/ui/button";
@@ -18,23 +18,23 @@ export function UUIDGenerator() {
   const [error, setError] = useState("");
   const { copyToClipboard } = useCopyToClipboard();
 
-  const handleGenerate = () => {
+  const handleGenerate = useCallback(() => {
     setError("");
     try {
       const options = { uppercase, withHyphens };
       const newUuids = generateBulkUUIDs(count, options);
       setUuids(newUuids);
-    } catch (err: any) {
-      setError(err.message || "Failed to generate UUIDs");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to generate UUIDs");
     }
-  };
+  }, [count, uppercase, withHyphens]);
 
   // Auto-regenerate when options change and UUIDs exist
   useEffect(() => {
     if (uuids.length > 0) {
       handleGenerate();
     }
-  }, [uppercase, withHyphens, count]);
+  }, [handleGenerate, uuids.length]);
 
   const handleCopyAll = () => {
     copyToClipboard(uuids.join("\n"), "All UUIDs copied");

@@ -1,7 +1,7 @@
-import { 
+import {
   Home, FileText, Key, Hash, RefreshCw, Shield, Clock,
-  FileJson, Settings, Terminal, GitCompare, Timer, 
-  Image, Code, Keyboard, ArrowRightLeft
+  FileJson, Settings, Terminal, GitCompare, Timer,
+  Image, Code, Keyboard, ArrowRightLeft, Fingerprint, Zap, Lock
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
@@ -33,8 +33,9 @@ const categories = [
   {
     title: "Generation & Building",
     items: [
-      { title: "ID Generator", url: "/id-generator", icon: Hash },
-      { title: "Hash Generator", url: "/hash", icon: RefreshCw },
+      { title: "UUID Generator", url: "/uuid", icon: Fingerprint },
+      { title: "ID Generator", url: "/id-generator", icon: Zap },
+      { title: "Hash Generator", url: "/hash", icon: Lock },
       { title: "Curl Builder", url: "/curl", icon: Terminal },
     ],
   },
