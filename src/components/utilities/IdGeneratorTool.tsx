@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ToolCard } from "@/components/common/ToolCard";
 import { CopyButton } from "@/components/common/CopyButton";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,7 +21,7 @@ export function IdGeneratorTool() {
   const [error, setError] = useState("");
   const { copyToClipboard } = useCopyToClipboard();
 
-  const handleGenerate = () => {
+  const handleGenerate = useCallback(() => {
     try {
       const result = generateBulkIds({ type: idType, uppercase, withHyphens, count });
       setIds(result);
@@ -29,11 +29,11 @@ export function IdGeneratorTool() {
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to generate IDs");
     }
-  };
+  }, [idType, uppercase, withHyphens, count]);
 
   useEffect(() => {
     if (ids.length > 0) handleGenerate();
-  }, [idType, uppercase, withHyphens, count]);
+  }, [handleGenerate, ids.length]);
 
   return (
     <ToolCard title="ID Generator Suite" description="Generate UUID, ULID, and KSUID identifiers">
